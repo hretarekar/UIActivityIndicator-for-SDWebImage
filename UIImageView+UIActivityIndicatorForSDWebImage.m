@@ -34,13 +34,25 @@ static char TAG_ACTIVITY_INDICATOR;
     if (!self.activityIndicator) {
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:activityStyle];
         
-        self.activityIndicator.autoresizingMask = UIViewAutoresizingNone;
-        
-        CGRect activityIndicatorBounds = self.activityIndicator.bounds;
-        float x = (self.frame.size.width - activityIndicatorBounds.size.width) / 2.0;
-        float y = (self.frame.size.height - activityIndicatorBounds.size.height) / 2.0;
-        self.activityIndicator.frame = CGRectMake(x, y, activityIndicatorBounds.size.width, activityIndicatorBounds.size.height);
-        
+        [self.activityIndicator setTranslatesAutoresizingMaskIntoConstraints:NO];
+        if(self && self.activityIndicator) {
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activityIndicator
+                                                             attribute:NSLayoutAttributeCenterX
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self
+                                                             attribute:NSLayoutAttributeCenterX
+                                                            multiplier:1.0
+                                                              constant:0.0]];
+            
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activityIndicator
+                                                                     attribute:NSLayoutAttributeCenterY
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:self
+                                                                     attribute:NSLayoutAttributeCenterY
+                                                                    multiplier:1.0
+                                                                      constant:0.0]];
+        }
+
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             [self addSubview:self.activityIndicator];
         });
