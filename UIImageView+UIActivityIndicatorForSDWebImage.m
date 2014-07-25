@@ -35,7 +35,10 @@ static char TAG_ACTIVITY_INDICATOR;
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:activityStyle];
         
         [self.activityIndicator setTranslatesAutoresizingMaskIntoConstraints:NO];
-        if(self && self.activityIndicator) {
+
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self addSubview:self.activityIndicator];
+            if(self && self.activityIndicator) {
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activityIndicator
                                                              attribute:NSLayoutAttributeCenterX
                                                              relatedBy:NSLayoutRelationEqual
@@ -52,9 +55,6 @@ static char TAG_ACTIVITY_INDICATOR;
                                                                     multiplier:1.0
                                                                       constant:0.0]];
         }
-
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [self addSubview:self.activityIndicator];
         });
     }
     
